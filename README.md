@@ -1,3 +1,8 @@
+## A note from Nate:
+
+This build will drive ws2812 via OPC.  It is configured statically to endpoint: "10.200.1.8:7890"
+
+
 # WS2812 RGB array example for FRDM-K64F
 
 This repository contains example software for controlling a WS2812 RGB LED array via network.
