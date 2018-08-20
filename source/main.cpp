@@ -27,16 +27,19 @@
 
 using namespace mbed::Sockets::v0;
 
-#define UDP_SERVER_PORT 2342
+// #define UDP_SERVER_PORT 2342
+#define UDP_SERVER_PORT 7890
 #define PIXEL_WIDTH 8
 #define PIXEL_HEIGHT 8
 #define SERVER_RESPONSE "{\"type\": \"RAINBOW_MATRIX\", \"width\": " STR(PIXEL_WIDTH) ",\"height\": " STR(PIXEL_HEIGHT) "}\n\r"
+
+#define LED_PIN PTC6
 
 static UDPSocket *g_udp_server;
 static EthernetInterface g_eth;
 static DigitalOut g_led(LED1);
 static Serial g_pc(USBTX, USBRX);
-static WS2xxx g_rgb(PTD2, PIXEL_WIDTH, PIXEL_HEIGHT);
+static WS2xxx g_rgb(LED_PIN, PIXEL_WIDTH, PIXEL_HEIGHT);
 static const char g_id_string[] = SERVER_RESPONSE;
 
 static void ActivityLedToggle(void) {
@@ -91,7 +94,8 @@ static void NetworkReceive(Socket *s) {
 
 static void NetworkInit(void){
     /* Initialise with DHCP, connect, and start up the stack */
-    g_eth.init();
+    // g_eth.init();
+    g_eth.init("10.200.1.8", "255.255.255.0", "10.200.1.1");
     g_eth.connect();
 
     socket_error_t err = lwipv4_socket_init();
